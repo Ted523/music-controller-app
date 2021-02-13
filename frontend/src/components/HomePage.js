@@ -12,6 +12,7 @@ export default class HomePage extends Component {
         this.state = {
             roomCode: null,
         };
+        this.clearRoomCode = this.clearRoomCode.bind(this);
     }
 
     async componentDidMount() {
@@ -46,6 +47,12 @@ export default class HomePage extends Component {
         );
     }
 
+    clearRoomCode(){
+        this.setState({
+            roomCode: null,
+        })
+    }
+
     render() {
         return (
             <Router>
@@ -59,7 +66,12 @@ export default class HomePage extends Component {
                     }}/>
                     <Route path='/join' component={RoomJoinPage}></Route>
                     <Route path='/create' component={CreateRoomPage}></Route>
-                    <Route path='/room/:roomCode'component={Room}></Route>
+                    <Route 
+                        path='/room/:roomCode'
+                        render={(props) => {
+                            return<Room {...props} leaveRoomCallback={this.clearRoomCode}/>;
+                        }}
+                    />
                 </Switch>
             </Router>
         );
